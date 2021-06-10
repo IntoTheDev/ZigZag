@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.intothedev.objectpooling": {
+      "version": "https://github.com/IntoTheDev/Object-Pooling-for-Unity.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "3d84834a45f7985764a5bbd5c7f4da14812c2b4c"
+    },
     "com.unity.ext.nunit": {
       "version": "1.0.6",
       "depth": 1,
