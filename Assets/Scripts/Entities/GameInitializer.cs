@@ -2,7 +2,7 @@
 
 public static class GameInitializer
 {
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Init() =>
-        Application.targetFrameRate = -1;
+        Application.targetFrameRate = 300;
 }

@@ -6,6 +6,13 @@ public class Camera : MonoBehaviour
     [SerializeField] private Transform _followTo = null;
     [SerializeField] private float _offset = 0f;
 
+    private Vector3 _startPosition = default;
+    
+    private void Awake()
+    {
+        _startPosition = _followTo.position;
+    }
+
     private void OnEnable() =>
         Player.OnLose += OnLose;
 
@@ -19,7 +26,7 @@ public class Camera : MonoBehaviour
         targetPosition.x += _offset;
         targetPosition.y = myPosition.y;
         targetPosition.z += _offset;
-        
+
         transform.position = targetPosition;
     }
     

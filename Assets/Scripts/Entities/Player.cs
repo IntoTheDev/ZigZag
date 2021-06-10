@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-/*#if !UNITY_EDITOR
+#if !UNITY_EDITOR
         foreach (var touch in Input.touches)
         {
             if (touch.fingerId == 0 && touch.phase == TouchPhase.Began)
@@ -49,13 +49,13 @@ public class Player : MonoBehaviour
             }
 
         }
-#else*/
+#else
         if (Input.GetKeyDown(KeyCode.Space))
         {
             OnTap?.Invoke();
             _wasPressed = true;
         }
-//#endif
+#endif
 
         if (!_mover.isActiveAndEnabled)
             return;
