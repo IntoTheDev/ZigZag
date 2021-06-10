@@ -1,2 +1,2 @@
 # ZigZag
-Made a game based on task from some Unity Junior Developer vacancy.
+Made a game based on task a from some Unity Junior Developer vacancy.
