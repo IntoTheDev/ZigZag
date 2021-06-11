@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7210051351941859517}
   m_Layer: 9
   m_Name: Crystal
-  m_TagString: Crystal
+  m_TagString: Pickupable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

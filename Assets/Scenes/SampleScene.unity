@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _material: {fileID: 2100000, guid: eaafe87a1c976f449ae78f719c88b0a7, type: 2}
-  _changeRate: 3
+  _changeRate: 7
   _changeSpeed: 0.005
   _colors:
   - {r: 0.17254902, g: 0.9098039, b: 0.9607843, a: 1}
