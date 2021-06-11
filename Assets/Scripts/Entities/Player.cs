@@ -58,6 +58,7 @@ public class Player : MonoBehaviour
         {
             enabled = false;
             OnLose?.Invoke();
+            UserInput.OnPress -= ChangeDirection;
         }
     }
 
