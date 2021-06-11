@@ -1,7 +1,7 @@
 using ToolBox.Pools;
 using UnityEngine;
 
-public class Crystal : MonoBehaviour
+public class Pickupable : MonoBehaviour
 {
     [SerializeField] private int _score = 0;
     

@@ -13,9 +13,12 @@ public class Mover : MonoBehaviour
         _transform = transform;
     }
 
+    private void Update() =>
+        _transform.position += _direction * (_speed * Time.deltaTime);
+    
     public void ChangeDirection() =>
         _direction = _direction == Vector3.right ? Vector3.forward : Vector3.right;
 
-    private void Update() =>
-        _transform.position += _direction * (_speed * Time.deltaTime);
+    public void SetSpeed(float speed) =>
+        _speed = speed;
 }

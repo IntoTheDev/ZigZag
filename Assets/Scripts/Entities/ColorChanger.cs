@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -17,16 +16,28 @@ public class ColorChanger : MonoBehaviour
     {
         _color = _material.color;
         _waitForSeconds = new WaitForSeconds(_changeRate);
-        Player.OnTap += OnTap;
+    }
+
+    private void OnEnable()
+    {
+        UserInput.OnPress += OnPress;
+        Player.OnLose += OnLose;
     }
 
     private void Update() =>
         _material.color = Color.Lerp(_material.color, _color, _changeSpeed);
 
-    private void OnTap()
+    private void OnPress()
     {
         StartCoroutine(ChangeColor());
-        Player.OnTap -= OnTap;
+        UserInput.OnPress -= OnPress;
+    }
+    
+    private void OnLose()
+    {
+        Player.OnLose -= OnLose;
+        StopCoroutine(ChangeColor());
+        enabled = false;
     }
 
     private IEnumerator ChangeColor()
@@ -34,7 +45,8 @@ public class ColorChanger : MonoBehaviour
         while (true)
         {
             yield return _waitForSeconds;
-            Color newColor = _color;
+            
+            var newColor = _color;
                 
             while (newColor == _color)
                 newColor = _colors[Random.Range(0, _colors.Length)];

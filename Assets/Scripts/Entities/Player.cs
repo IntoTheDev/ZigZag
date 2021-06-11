@@ -1,91 +1,60 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Mover), typeof(GroundDetection))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private TriggerDetection _triggerDetection = null;
+    [SerializeField] private GameConfig _config = null;
 
     private Mover _mover = null;
     private GroundDetection _groundDetector = null;
-    private bool _wasPressed = false;
     private int _score = 0;
-    private WaitForEndOfFrame _waitForEndOfFrame = new WaitForEndOfFrame();
+    private readonly WaitForEndOfFrame _waitForEndOfFrame = new WaitForEndOfFrame();
 
     public static event Action<int> OnScoreChanged = null;
-    public static event Action OnTap = null;
     public static event Action OnLose = null; 
 
     private void Awake()
     {
         _mover = GetComponent<Mover>();
+        _mover.SetSpeed(_config.Speed);
+        
         _groundDetector = GetComponent<GroundDetection>();
-
-        StartCoroutine(WaitForTap());
+        UserInput.OnPress += EnableMover;
     }
 
     private void OnEnable()
     {
         _triggerDetection.OnEnter += OnDetected;
-        _groundDetector.OnStateChanged += OnStateChanged;
+        _groundDetector.OnStateChanged += OnGroundChange;
     }
 
     private void OnDisable()
     {
         _triggerDetection.OnEnter -= OnDetected;
-        _groundDetector.OnStateChanged -= OnStateChanged;
+        _groundDetector.OnStateChanged -= OnGroundChange;
     }
 
-    private void Update()
+    private void EnableMover()
     {
-#if !UNITY_EDITOR
-        foreach (var touch in Input.touches)
-        {
-            if (touch.fingerId == 0 && touch.phase == TouchPhase.Began)
-            {
-                OnTap?.Invoke();
-                _wasPressed = true;
-            }
-
-        }
-#else
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            OnTap?.Invoke();
-            _wasPressed = true;
-        }
-#endif
-
-        if (!_mover.isActiveAndEnabled)
-            return;
-
-        if (_wasPressed)
-        {
-            _mover.ChangeDirection();
-            IncreaseScore(1);
-            _wasPressed = false;
-        }
-    }
-
-    private IEnumerator WaitForTap()
-    {
-        while (!_wasPressed)
-        {
-            _waitForEndOfFrame = new WaitForEndOfFrame();
-            yield return _waitForEndOfFrame;
-        }
-
-        _wasPressed = false;
         _mover.enabled = true;
+        UserInput.OnPress -= EnableMover;
+        UserInput.OnPress += ChangeDirection;
     }
-
-    private void OnDetected(Collider other) =>
-        IncreaseScore(other.GetComponent<Crystal>().Take());
-
-    private void OnStateChanged(bool state)
+    
+    private void ChangeDirection()
     {
-        if (!state)
+        _mover.ChangeDirection();
+        IncreaseScore(1);
+    }
+    
+    private void OnDetected(Collider other) =>
+        IncreaseScore(other.GetComponent<Pickupable>().Take());
+
+    private void OnGroundChange(bool grounded)
+    {
+        if (!grounded)
         {
             enabled = false;
             OnLose?.Invoke();
