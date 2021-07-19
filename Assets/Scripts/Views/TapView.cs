@@ -6,33 +6,40 @@ public class TapView : MonoBehaviour
 {
     [SerializeField] private TMP_Text _tapText = null;
 
+    private UserInput _userInput = null;
+    private Player _player = null;
+    
     private const string START_TEXT = "TAP TO PLAY!";
     private const string RESTART_TEXT = "TAP TO RESTART!";
     
-    private void OnEnable()
-    {
+    private void OnEnable() =>
         _tapText.text = START_TEXT;
-        UserInput.OnPress += OnPress;
+
+    public void Construct(UserInput userInput, Player player)
+    {
+        _userInput = userInput;
+        _player = player;
+        
+        _userInput.OnPress += OnPress;
     }
 
     private void OnPress()
     {
         _tapText.gameObject.SetActive(false);
-        UserInput.OnPress -= OnPress;
-        Player.OnLose += OnLose;
+        _userInput.OnPress -= OnPress;
+        _player.OnLose += OnLose;
     }
 
     private void OnLose()
     {
         _tapText.text = RESTART_TEXT;
         _tapText.gameObject.SetActive(true);
-        UserInput.OnPress += Restart;
-        Player.OnLose -= OnLose;
+        _userInput.OnPress += Restart;
     }
 
     private void Restart()
     {
-        UserInput.OnPress -= Restart;
+        _userInput.OnPress -= Restart;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

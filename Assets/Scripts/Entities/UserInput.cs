@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class UserInput : MonoBehaviour
 {
-    public static event Action OnPress = null;
+    public event Action OnPress = null;
     
     private void Update()
     {

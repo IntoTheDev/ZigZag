@@ -11,9 +11,10 @@ public class Player : MonoBehaviour
     private GroundDetection _groundDetector = null;
     private int _score = 0;
     private readonly WaitForEndOfFrame _waitForEndOfFrame = new WaitForEndOfFrame();
+    private UserInput _userInput = null;
 
-    public static event Action<int> OnScoreChanged = null;
-    public static event Action OnLose = null; 
+    public event Action<int> OnScoreChanged = null;
+    public event Action OnLose = null; 
 
     private void Awake()
     {
@@ -21,7 +22,6 @@ public class Player : MonoBehaviour
         _mover.SetSpeed(_config.Speed);
         
         _groundDetector = GetComponent<GroundDetection>();
-        UserInput.OnPress += EnableMover;
     }
 
     private void OnEnable()
@@ -35,12 +35,19 @@ public class Player : MonoBehaviour
         _triggerDetection.OnEnter -= OnDetected;
         _groundDetector.OnStateChanged -= OnGroundChange;
     }
+    
+    public void Construct(UserInput userInput)
+    {
+        _userInput = userInput;
+        
+        _userInput.OnPress += EnableMover;
+    }
 
     private void EnableMover()
     {
         _mover.enabled = true;
-        UserInput.OnPress -= EnableMover;
-        UserInput.OnPress += ChangeDirection;
+        _userInput.OnPress -= EnableMover;
+        _userInput.OnPress += ChangeDirection;
     }
     
     private void ChangeDirection()
@@ -58,7 +65,7 @@ public class Player : MonoBehaviour
         {
             enabled = false;
             OnLose?.Invoke();
-            UserInput.OnPress -= ChangeDirection;
+            _userInput.OnPress -= ChangeDirection;
         }
     }
 

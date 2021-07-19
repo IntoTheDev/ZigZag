@@ -6,18 +6,11 @@ public class CameraMover : MonoBehaviour
 
     private Transform _transform = null;
     private bool _canMove = false;
-
+    private UserInput _userInput = null;
+    private Player _player = null;
+    
     private void Awake() =>
         _transform = transform;
-
-    private void OnEnable()
-    {
-        Player.OnLose += OnLose;
-        UserInput.OnPress += OnPress;
-    }
-
-    private void OnDisable() =>
-        Player.OnLose -= OnLose;
 
     private void Update()
     {
@@ -30,12 +23,21 @@ public class CameraMover : MonoBehaviour
         _transform.position += moveBy;
     }
     
+    public void Construct(UserInput userInput, Player player)
+    {
+        _userInput = userInput;
+        _player = player;
+        
+        _userInput.OnPress += OnPress;
+        _player.OnLose += OnLose;
+    }
+    
     private void OnLose() =>
         enabled = false;
     
     private void OnPress()
     {
         _canMove = true;
-        UserInput.OnPress -= OnPress;
+        _userInput.OnPress -= OnPress;
     }
 }
