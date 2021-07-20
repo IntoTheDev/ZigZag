@@ -1,22 +1,10 @@
-using UnityEngine;
+using Zenject;
 
-public class GameInstaller : MonoBehaviour
+public class GameInstaller : MonoInstaller
 {
-    [SerializeField] private UserInput _userInput = null;
-    [SerializeField] private ColorChanger _colorChanger = null;
-    [SerializeField] private CameraMover _cameraMover = null;
-    [SerializeField] private Player _player = null;
-    [SerializeField] private PathGenerator _pathGenerator = null;
-    [SerializeField] private TapView _tapView = null;
-    [SerializeField] private ScoreView _scoreView = null;
-    
-    private void Awake()
+    public override void InstallBindings()
     {
-        _colorChanger.Construct(_userInput, _player);
-        _cameraMover.Construct(_userInput, _player);
-        _player.Construct(_userInput);
-        _pathGenerator.Construct(_userInput);
-        _tapView.Construct(_userInput, _player);
-        _scoreView.Construct(_player);
+        Container.BindInterfacesAndSelfTo<UserInput>().AsSingle().NonLazy();
+        Container.Bind<Player>().FromComponentInHierarchy().AsSingle();
     }
 }

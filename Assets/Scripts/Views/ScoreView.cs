@@ -1,11 +1,13 @@
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 public class ScoreView : MonoBehaviour
 {
     [SerializeField] private TMP_Text _scoreCounter = null;
 
-    public void Construct(Player player) =>
+    [Inject]
+    private void Construct(Player player) =>
         player.OnScoreChanged += OnScoreChanged;
 
     private void OnScoreChanged(int totalAmount) =>

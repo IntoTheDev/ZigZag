@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using Zenject;
 using Random = UnityEngine.Random;
 
 public class ColorChanger : MonoBehaviour
@@ -24,7 +25,8 @@ public class ColorChanger : MonoBehaviour
     private void Update() =>
         _material.color = Color.Lerp(_material.color, _color, _changeSpeed);
 
-    public void Construct(UserInput userInput, Player player)
+    [Inject]
+    private void Construct(UserInput userInput, Player player)
     {
         _userInput = userInput;
         _player = player;

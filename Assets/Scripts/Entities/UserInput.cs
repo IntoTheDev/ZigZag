@@ -1,11 +1,12 @@
 ﻿using System;
 using UnityEngine;
+using Zenject;
 
-public class UserInput : MonoBehaviour
+public class UserInput : ITickable
 {
     public event Action OnPress = null;
-    
-    private void Update()
+
+    public void Tick()
     {
 #if !UNITY_EDITOR
         foreach (var touch in Input.touches)

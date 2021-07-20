@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 public class TapView : MonoBehaviour
 {
@@ -15,7 +16,8 @@ public class TapView : MonoBehaviour
     private void OnEnable() =>
         _tapText.text = START_TEXT;
 
-    public void Construct(UserInput userInput, Player player)
+    [Inject]
+    private void Construct(UserInput userInput, Player player)
     {
         _userInput = userInput;
         _player = player;
