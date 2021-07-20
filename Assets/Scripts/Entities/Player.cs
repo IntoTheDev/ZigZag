@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(Mover), typeof(GroundDetection))]
 public class Player : MonoBehaviour
@@ -36,7 +37,8 @@ public class Player : MonoBehaviour
         _groundDetector.OnStateChanged -= OnGroundChange;
     }
     
-    public void Construct(UserInput userInput)
+    [Inject]
+    private void Construct(UserInput userInput)
     {
         _userInput = userInput;
         

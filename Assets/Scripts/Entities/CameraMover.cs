@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 public class CameraMover : MonoBehaviour
 {
@@ -23,7 +24,8 @@ public class CameraMover : MonoBehaviour
         _transform.position += moveBy;
     }
     
-    public void Construct(UserInput userInput, Player player)
+    [Inject]
+    private void Construct(UserInput userInput, Player player)
     {
         _userInput = userInput;
         _player = player;
