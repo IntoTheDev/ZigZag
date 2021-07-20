@@ -6,24 +6,18 @@ using Zenject;
 public class Player : MonoBehaviour
 {
     [SerializeField] private TriggerDetection _triggerDetection = null;
-    [SerializeField] private GameConfig _config = null;
-
+    
+    private GameConfig _config = null;
     private Mover _mover = null;
     private GroundDetection _groundDetector = null;
     private int _score = 0;
-    private readonly WaitForEndOfFrame _waitForEndOfFrame = new WaitForEndOfFrame();
     private UserInput _userInput = null;
 
     public event Action<int> OnScoreChanged = null;
     public event Action OnLose = null; 
 
-    private void Awake()
-    {
-        _mover = GetComponent<Mover>();
-        _mover.SetSpeed(_config.Speed);
-        
+    private void Awake() =>
         _groundDetector = GetComponent<GroundDetection>();
-    }
 
     private void OnEnable()
     {
@@ -38,11 +32,14 @@ public class Player : MonoBehaviour
     }
     
     [Inject]
-    private void Construct(UserInput userInput)
+    private void Construct(UserInput userInput, GameConfig config)
     {
         _userInput = userInput;
+        _config = config;
         
         _userInput.OnPress += EnableMover;
+        _mover = GetComponent<Mover>();
+        _mover.SetSpeed(_config.Speed);
     }
 
     private void EnableMover()

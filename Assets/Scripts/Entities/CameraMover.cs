@@ -3,8 +3,7 @@ using Zenject;
 
 public class CameraMover : MonoBehaviour
 {
-    [SerializeField] private GameConfig _config = null;
-
+    private GameConfig _config = null;
     private Transform _transform = null;
     private bool _canMove = false;
     private UserInput _userInput = null;
@@ -25,10 +24,11 @@ public class CameraMover : MonoBehaviour
     }
     
     [Inject]
-    private void Construct(UserInput userInput, Player player)
+    private void Construct(UserInput userInput, Player player, GameConfig config)
     {
         _userInput = userInput;
         _player = player;
+        _config = config;
         
         _userInput.OnPress += OnPress;
         _player.OnLose += OnLose;
