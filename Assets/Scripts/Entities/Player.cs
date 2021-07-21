@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Zenject;
 
-[RequireComponent(typeof(Mover), typeof(GroundDetection))]
+[DisallowMultipleComponent, RequireComponent(typeof(Mover), typeof(GroundDetection), typeof(Rigidbody))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private TriggerDetection _triggerDetection = null;
@@ -12,23 +12,27 @@ public class Player : MonoBehaviour
     private GroundDetection _groundDetector = null;
     private int _score = 0;
     private UserInput _userInput = null;
+    private Rigidbody _body = null;
 
     public event Action<int> OnScoreChanged = null;
     public event Action OnLose = null; 
 
-    private void Awake() =>
+    private void Awake()
+    {
         _groundDetector = GetComponent<GroundDetection>();
+        _body = GetComponent<Rigidbody>();
+    }
 
     private void OnEnable()
     {
         _triggerDetection.OnEnter += OnDetected;
-        _groundDetector.OnStateChanged += OnGroundChange;
+        _groundDetector.OnStateChanged += OnGroundStateChanged;
     }
 
     private void OnDisable()
     {
         _triggerDetection.OnEnter -= OnDetected;
-        _groundDetector.OnStateChanged -= OnGroundChange;
+        _groundDetector.OnStateChanged -= OnGroundStateChanged;
     }
     
     [Inject]
@@ -58,13 +62,14 @@ public class Player : MonoBehaviour
     private void OnDetected(Collider other) =>
         IncreaseScore(other.GetComponent<Pickupable>().Take());
 
-    private void OnGroundChange(bool grounded)
+    private void OnGroundStateChanged(bool isGrounded)
     {
-        if (!grounded)
+        if (!isGrounded)
         {
             enabled = false;
             OnLose?.Invoke();
             _userInput.OnPress -= ChangeDirection;
+            _body.useGravity = true;
         }
     }
 
