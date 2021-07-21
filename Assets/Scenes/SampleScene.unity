@@ -223,6 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _config: {fileID: 11400000, guid: 3dd180c51ed2e2840a6d911f39de2e44, type: 2}
+  _tester: {fileID: 4972329056820349403, guid: 4dcfd590bf40d7046ae1b691fd70dc1f, type: 3}
 --- !u!114 &313454385
 MonoBehaviour:
   m_ObjectHideFlags: 0

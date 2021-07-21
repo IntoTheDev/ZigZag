@@ -39,9 +39,6 @@ public class TapView : MonoBehaviour
         _userInput.OnPress += Restart;
     }
 
-    private void Restart()
-    {
-        _userInput.OnPress -= Restart;
+    private void Restart() =>
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
 }
