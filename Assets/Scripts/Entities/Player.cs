@@ -34,6 +34,11 @@ public class Player : MonoBehaviour
         _triggerDetection.OnEnter -= OnDetected;
         _groundDetector.OnStateChanged -= OnGroundStateChanged;
     }
+
+    public void OnGameStarted()
+    {
+        print("Game Started!");
+    }
     
     [Inject]
     private void Construct(UserInput userInput, GameConfig config)

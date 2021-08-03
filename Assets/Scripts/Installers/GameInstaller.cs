@@ -1,14 +1,16 @@
 using UnityEngine;
 using Zenject;
 
-public class GameInstaller : MonoInstaller
+public class GameInstaller : MonoInstaller<GameInstaller>
 {
     [SerializeField] private GameConfig _config = null;
+    [SerializeField] private PathGenerator.Settings _generatorSettings = null;
 
     public override void InstallBindings()
     {
         Container.BindInterfacesAndSelfTo<UserInput>().AsSingle().NonLazy();
-        Container.Bind<Player>().FromComponentInHierarchy().AsSingle();
-        Container.BindInstance(_config);
+        Container.Bind<Player>().FromComponentInHierarchy().AsSingle().NonLazy();
+        Container.BindInstance(_config).AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<PathGenerator>().AsSingle().WithArguments(_generatorSettings).NonLazy();
     }
 }
