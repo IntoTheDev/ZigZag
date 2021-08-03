@@ -13,9 +13,6 @@ public class TapView : MonoBehaviour
     private const string START_TEXT = "TAP TO PLAY!";
     private const string RESTART_TEXT = "TAP TO RESTART!";
     
-    private void OnEnable() =>
-        _tapText.text = START_TEXT;
-
     [Inject]
     private void Construct(IUserInput userInput, Player player)
     {
@@ -24,6 +21,9 @@ public class TapView : MonoBehaviour
         
         _userInput.OnPress += OnPress;
     }
+    
+    private void OnEnable() =>
+        _tapText.text = START_TEXT;
 
     private void OnPress()
     {

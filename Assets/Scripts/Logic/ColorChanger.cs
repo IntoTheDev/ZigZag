@@ -47,6 +47,7 @@ public class ColorChanger : ITickable
 
     private void Enable()
     {
+        _stopwatch.Reset();
         _isEnabled = true;
         _userInput.OnPress -= Enable;
     }
