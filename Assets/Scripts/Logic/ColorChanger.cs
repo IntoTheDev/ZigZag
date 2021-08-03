@@ -5,14 +5,14 @@ using Random = UnityEngine.Random;
 
 public class ColorChanger : ITickable
 {
-    private readonly UserInput _userInput = null;
+    private readonly IUserInput _userInput = null;
     private readonly Player _player = null;
     private readonly Settings _settings = null;
     private readonly Stopwatch _stopwatch = null;
     private Color _color = default;
     private bool _isEnabled = false;
 
-    public ColorChanger(UserInput userInput, Player player, Settings settings)
+    public ColorChanger(IUserInput userInput, Player player, Settings settings)
     {
         _userInput = userInput;
         _player = player;

@@ -6,8 +6,19 @@ public class CameraMover : MonoBehaviour
     private GameConfig _config = null;
     private Transform _transform = null;
     private bool _canMove = false;
-    private UserInput _userInput = null;
+    private IUserInput _userInput = null;
     private Player _player = null;
+    
+    [Inject]
+    private void Construct(IUserInput userInput, Player player, GameConfig config)
+    {
+        _userInput = userInput;
+        _player = player;
+        _config = config;
+        
+        _userInput.OnPress += EnableMovement;
+        _player.OnLose += DisableMovement;
+    }
     
     private void Awake() =>
         _transform = transform;
@@ -22,24 +33,13 @@ public class CameraMover : MonoBehaviour
 
         _transform.position += moveBy;
     }
-    
-    [Inject]
-    private void Construct(UserInput userInput, Player player, GameConfig config)
-    {
-        _userInput = userInput;
-        _player = player;
-        _config = config;
-        
-        _userInput.OnPress += OnPress;
-        _player.OnLose += OnLose;
-    }
-    
-    private void OnLose() =>
+
+    private void DisableMovement() =>
         enabled = false;
     
-    private void OnPress()
+    private void EnableMovement()
     {
         _canMove = true;
-        _userInput.OnPress -= OnPress;
+        _userInput.OnPress -= EnableMovement;
     }
 }

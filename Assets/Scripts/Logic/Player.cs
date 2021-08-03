@@ -11,12 +11,23 @@ public class Player : MonoBehaviour
     private Mover _mover = null;
     private GroundDetection _groundDetector = null;
     private int _score = 0;
-    private UserInput _userInput = null;
+    private IUserInput _userInput = null;
     private Rigidbody _body = null;
 
     public event Action<int> OnScoreChanged = null;
     public event Action OnLose = null; 
 
+    [Inject]
+    private void Construct(IUserInput userInput, GameConfig config)
+    {
+        _userInput = userInput;
+        _config = config;
+        
+        _userInput.OnPress += EnableMover;
+        _mover = GetComponent<Mover>();
+        _mover.SetSpeed(_config.Speed);
+    }
+    
     private void Awake()
     {
         _groundDetector = GetComponent<GroundDetection>();
@@ -25,30 +36,14 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        _triggerDetection.OnEnter += OnDetected;
+        _triggerDetection.OnEnter += OnObjectDetected;
         _groundDetector.OnStateChanged += OnGroundStateChanged;
     }
 
     private void OnDisable()
     {
-        _triggerDetection.OnEnter -= OnDetected;
+        _triggerDetection.OnEnter -= OnObjectDetected;
         _groundDetector.OnStateChanged -= OnGroundStateChanged;
-    }
-
-    public void OnGameStarted()
-    {
-        print("Game Started!");
-    }
-    
-    [Inject]
-    private void Construct(UserInput userInput, GameConfig config)
-    {
-        _userInput = userInput;
-        _config = config;
-        
-        _userInput.OnPress += EnableMover;
-        _mover = GetComponent<Mover>();
-        _mover.SetSpeed(_config.Speed);
     }
 
     private void EnableMover()
@@ -64,7 +59,7 @@ public class Player : MonoBehaviour
         IncreaseScore(1);
     }
     
-    private void OnDetected(Collider other) =>
+    private void OnObjectDetected(Collider other) =>
         IncreaseScore(other.GetComponent<Pickupable>().Take());
 
     private void OnGroundStateChanged(bool isGrounded)

@@ -7,7 +7,7 @@ public class TapView : MonoBehaviour
 {
     [SerializeField] private TMP_Text _tapText = null;
 
-    private UserInput _userInput = null;
+    private IUserInput _userInput = null;
     private Player _player = null;
     
     private const string START_TEXT = "TAP TO PLAY!";
@@ -17,7 +17,7 @@ public class TapView : MonoBehaviour
         _tapText.text = START_TEXT;
 
     [Inject]
-    private void Construct(UserInput userInput, Player player)
+    private void Construct(IUserInput userInput, Player player)
     {
         _userInput = userInput;
         _player = player;

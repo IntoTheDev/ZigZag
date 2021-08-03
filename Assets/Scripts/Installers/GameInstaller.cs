@@ -9,7 +9,25 @@ public class GameInstaller : MonoInstaller<GameInstaller>
 
     public override void InstallBindings()
     {
-        Container.BindInterfacesAndSelfTo<UserInput>().AsSingle().NonLazy();
+        InstallInput();
+        InstallLogic();
+    }
+
+    private void InstallInput()
+    {
+        IUserInput input = null;
+
+#if UNITY_EDITOR
+        input = new EditorInput();
+#elif UNITY_ANDROID || UNITY_IOS
+        input = new MobileInput();
+#endif
+        
+        Container.Bind(input.GetType().GetInterfaces()).FromInstance(input).AsSingle();
+    }
+
+    private void InstallLogic()
+    {
         Container.Bind<Player>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.BindInstance(_config).AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<PathGenerator>().AsSingle().WithArguments(_generatorSettings).NonLazy();

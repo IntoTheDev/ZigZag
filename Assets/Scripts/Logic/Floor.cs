@@ -7,6 +7,8 @@ public class Floor : MonoBehaviour, IPoolable
     [SerializeField] private TriggerDetection _triggerDetection = null;
     
     private DirectionalMover _mover = null;
+    private const float TIME_BEFORE_FALL = 1f;
+    private const float TIME_BEFORE_RELEASE = 2f;
 
     private void Awake() =>
         _mover = GetComponent<DirectionalMover>();
@@ -18,12 +20,12 @@ public class Floor : MonoBehaviour, IPoolable
         _triggerDetection.OnExit -= OnExit;
 
     private void OnExit(Collider other) =>
-        Invoke(nameof(EnableMover), 1f);
+        Invoke(nameof(EnableMover), TIME_BEFORE_FALL);
 
     private void EnableMover()
     {
         _mover.enabled = true;
-        Invoke(nameof(Release), 2f);
+        Invoke(nameof(Release), TIME_BEFORE_RELEASE);
     }
 
     private void Release() =>
