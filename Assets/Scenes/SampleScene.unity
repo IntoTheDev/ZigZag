@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: e7783b24d3a0e4741b3a0fb5a1ce58ac, type: 2}
+  m_LightingDataAsset: {fileID: 0}
   m_LightingSettings: {fileID: 4890085278179872738, guid: e624038051cfa4c4cad6c7767ae0fe6d, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -159,6 +159,16 @@ MonoBehaviour:
     _crystalPrefab: {fileID: 7278090978750367547, guid: 00d4932b1acd2634697ab89313f27367, type: 3}
     _start: {fileID: 798657816}
     _crystalSpawnProbability: 0.2
+  _colorChangerSettings:
+    _material: {fileID: 2100000, guid: eaafe87a1c976f449ae78f719c88b0a7, type: 2}
+    _changeRate: 7
+    _changeSpeed: 0.005
+    _colors:
+    - {r: 0.17254902, g: 0.9098039, b: 0.9607843, a: 1}
+    - {r: 0.3882353, g: 0.78039217, b: 0.3019608, a: 1}
+    - {r: 0.89411765, g: 0.23137255, b: 0.26666668, a: 1}
+    - {r: 0.99607843, g: 0.68235296, b: 0.20392157, a: 1}
+    - {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &313454385
 MonoBehaviour:
   m_ObjectHideFlags: 0
